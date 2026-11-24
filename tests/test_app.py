@@ -1,4 +1,4 @@
-"""Functional tests with the fake model. Attack tests arrive in phase 3."""
+"""Functional tests with the fake model. Attack tests are in test_attacks.py."""
 from fastapi.testclient import TestClient
 
 from app import retriever

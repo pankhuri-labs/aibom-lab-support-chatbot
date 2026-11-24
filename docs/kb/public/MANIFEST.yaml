@@ -1,0 +1,23 @@
+# Reviewed help articles. Only files listed here, with a matching SHA-256, are indexed (CS54 PB-01).
+# Re-review and update the hash whenever an article changes.
+articles:
+  - file: billing.md
+    source: help centre
+    reviewed_by: support-content-team (lab)
+    reviewed_on: 2026-11-24
+    sha256: b329d92d6d9c796428b34b42217ad6ad7e0c35b7dd3d7a8c58e67f0722434310
+  - file: password-reset.md
+    source: help centre
+    reviewed_by: support-content-team (lab)
+    reviewed_on: 2026-11-24
+    sha256: 4ee81b38a678d05fe3225c160e3cb13a09081716a7471d068135ead59dadccd2
+  - file: returns-policy.md
+    source: help centre
+    reviewed_by: support-content-team (lab)
+    reviewed_on: 2026-11-24
+    sha256: 0ed2a2ec1d4ad3d6fdb841a6f31c65504a2a182e127afaefa0ae1ad5ee3a5d32
+  - file: shipping.md
+    source: help centre
+    reviewed_by: support-content-team (lab)
+    reviewed_on: 2026-11-24
+    sha256: 1af240232fa3086286e90ec85f316560d980cb4ee3f9ecb69d62c8f440a93ac5

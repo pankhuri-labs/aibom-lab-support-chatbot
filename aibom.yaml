@@ -1,0 +1,11 @@
+# Ownership and context that code cannot tell a scanner. Read by the CS54 AI-BOM scanner (phase 2).
+app: aibom-lab-support-chatbot
+owner: customer-support-engineering (lab)
+business_criticality: high
+environment: lab
+exposure: internet-facing        # intended deployment; the lab only runs on localhost
+authentication: none
+autonomy: advisory               # answers questions, takes no actions
+data_classification:
+  rag_corpus: contains personal data (synthetic)
+  user_input: untrusted

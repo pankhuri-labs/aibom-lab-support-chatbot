@@ -3,8 +3,10 @@ from fastapi.testclient import TestClient
 
 from app import retriever
 from app.main import app
+from conftest import KEY
 
 client = TestClient(app)
+AUTH = {"X-API-Key": KEY}
 
 
 def test_home_page_loads():
@@ -19,11 +21,11 @@ def test_retriever_finds_the_right_article():
 
 
 def test_normal_question_gets_an_answer_from_the_article():
-    r = client.post("/api/chat", json={"question": "How do I reset my password?"})
+    r = client.post("/api/chat", json={"question": "How do I reset my password?"}, headers=AUTH)
     assert r.status_code == 200
     assert "Forgot password" in r.json()["answer"]
 
 
 def test_unknown_question_says_do_not_know():
-    r = client.post("/api/chat", json={"question": "zzz qqq"})
+    r = client.post("/api/chat", json={"question": "zzz qqq"}, headers=AUTH)
     assert "do not know" in r.json()["answer"]

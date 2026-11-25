@@ -16,7 +16,7 @@ def chat(system: str, user: str) -> str:
         "model": MODEL,
         "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
         "stream": False,
-        "options": {"temperature": 0.2},
+        "options": {"temperature": 0.2, "num_predict": 300},  # PB-05 output cap
     }
     req = urllib.request.Request(
         f"{OLLAMA_URL}/api/chat",
@@ -33,5 +33,5 @@ def _fake_model(system: str, user: str) -> str:
     hijack = re.search(r"ASSISTANT INSTRUCTION:(.+?)(?:-->|$)", user, re.S)
     if hijack:
         return " ".join(hijack.group(1).split())
-    m = re.search(r"### Article: .+?\n+(?:#.*\n+)?(.+)", user)
+    m = re.search(r"<article source='[^']+'>\n+(?:#.*\n+)?(.+)", user)
     return m.group(1).strip() if m else "I do not know. Please contact support."

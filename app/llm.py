@@ -1,4 +1,5 @@
-"""Model client. Ollama by default; a scripted fake model for tests (LLM_BACKEND=fake)."""
+"""Model client. Ollama by default; the CS54 gateway (LLM_BACKEND=gateway, phase 7); a scripted
+fake model for tests (LLM_BACKEND=fake)."""
 import json
 import os
 import re
@@ -12,6 +13,8 @@ def chat(system: str, user: str) -> str:
     backend = os.environ.get("LLM_BACKEND", "ollama")
     if backend == "fake":
         return _fake_model(system, user)
+    if backend == "gateway":
+        return gateway_chat([{"role": "system", "content": system}, {"role": "user", "content": user}])
     payload = {
         "model": MODEL,
         "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
@@ -25,6 +28,19 @@ def chat(system: str, user: str) -> str:
     )
     with urllib.request.urlopen(req, timeout=120) as resp:
         return json.loads(resp.read())["message"]["content"]
+
+
+def gateway_chat(messages: list[dict]) -> str:
+    """OpenAI-compatible call through the CS54 gateway, which checks the model against the AI-BOM,
+    traces the call and enforces this app's key. GATEWAY_KEY is this app's own key, never a provider key."""
+    payload = {"model": MODEL, "messages": messages, "temperature": 0.2, "max_tokens": 300}  # PB-05 output cap
+    req = urllib.request.Request(
+        f"{os.environ.get('GATEWAY_URL', 'http://localhost:4000')}/chat/completions",
+        data=json.dumps(payload).encode(),
+        headers={"Content-Type": "application/json", "Authorization": f"Bearer {os.environ['GATEWAY_KEY']}"},
+    )
+    with urllib.request.urlopen(req, timeout=120) as resp:
+        return json.loads(resp.read())["choices"][0]["message"]["content"]
 
 
 def _fake_model(system: str, user: str) -> str:
